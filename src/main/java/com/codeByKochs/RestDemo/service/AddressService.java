@@ -1,21 +1,17 @@
 package com.codeByKochs.RestDemo.service;
 
 import com.codeByKochs.RestDemo.common.Address;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import java.io.File;
 import java.util.List;
 
 @RestController
 public class AddressService {
 
+    @Autowired
     private DatabaseManager databaseManager;
-
-    public AddressService(){
-        this.databaseManager = DatabaseManager.getInstance();
-    }
 
     @GetMapping("/greeting")
     public String greeting(){
@@ -24,6 +20,7 @@ public class AddressService {
 
     @GetMapping("/addresses")
     public List<Address> getAddresses(){
+        databaseManager.loadDataBase();
         return databaseManager.getAddresses();
     }
 
