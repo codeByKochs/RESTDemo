@@ -2,9 +2,11 @@ package com.codeByKochs.RestDemo.service;
 
 import com.codeByKochs.RestDemo.common.Address;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.Entity;
 import java.util.List;
 
 /**
@@ -19,6 +21,10 @@ public class AddressService {
     @Autowired
     private DatabaseManager databaseManager;
 
+    private ResponseStatusException exceptionHandling(HttpStatus httpStatus){
+        return new ResponseStatusException(httpStatus);
+    }
+
     @GetMapping("/greeting")
     public String greeting(){
         return "Hello World!";
@@ -26,11 +32,19 @@ public class AddressService {
 
     @GetMapping("/api/addresses")
     public List<Address> getAddresses(){
-        databaseManager.loadDataBase();
         return databaseManager.getAddresses();
     }
 
-//    TODO post mapping (databaseManager.saveDatabase())
-//    TODO update mapping (databaseManager.saveDatabase())
-//    TODO delete (databaseManager.saveDatabase())
+    @PostMapping(value="/api/addresses", consumes = "application/json")
+    public Address postAddress(@RequestBody Address newAddress){
+        newAddress = databaseManager.addAddress(newAddress);
+        return newAddress;
+    }
+
+    @DeleteMapping(value="/api/addresses/id")
+    public void deleteAddress(){
+//        TODO read id from path
+//        TODO implement databaseManager handling deletion
+
+    }
 }

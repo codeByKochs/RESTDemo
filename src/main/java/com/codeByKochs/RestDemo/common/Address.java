@@ -1,5 +1,7 @@
 package com.codeByKochs.RestDemo.common;
 
+import javax.persistence.Entity;
+
 /**
  * Object used to store address information
  * empty constructor and getter methods are needed to serialize/deserialize address objects with jackson
