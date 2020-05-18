@@ -1,6 +1,6 @@
 package com.codeByKochs.RestDemo.common;
 
-import javax.persistence.Entity;
+import java.util.UUID;
 
 /**
  * Object used to store address information
@@ -8,7 +8,7 @@ import javax.persistence.Entity;
  */
 
 public class Address{
-    private int id;
+    private UUID id;
     private String name;
     private String street;
     private String city;
@@ -19,7 +19,7 @@ public class Address{
         super();
     }
 
-    public Address(Integer id, String name, String street, String city, String zipcode) {
+    public Address(UUID id, String name, String street, String city, String zipcode) {
         this.id = id;
         this.name = name;
         this.street = street;
@@ -27,7 +27,7 @@ public class Address{
         this.zipcode = zipcode;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -47,7 +47,7 @@ public class Address{
         this.zipcode = zipcode;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -68,6 +68,6 @@ public class Address{
     }
 
     public String toString(){
-        return String.format("id: %d, name: %s, street: %s, city: %s, zipcode: %s", id, name, street, city, zipcode);
+        return String.format("name: %s, street: %s, city: %s, zipcode: %s", name, street, city, zipcode);
     }
 }

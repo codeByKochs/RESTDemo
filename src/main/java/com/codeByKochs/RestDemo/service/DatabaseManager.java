@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
- * Database manager used to manage database (.json file)
+ * Database manager used to manage database (in this case a .json file)
  * uses dbConfigBean to load path to current database
  */
 
@@ -23,79 +23,56 @@ public class DatabaseManager {
 
     private static DatabaseManager instance;
     private List<Address> addresses;
-
-    @Autowired
     private dbConfigBean dbConfigBean;
 
     public static DatabaseManager getInstance(){
         if (DatabaseManager.instance == null){
-            DatabaseManager.instance = new DatabaseManager();
+            DatabaseManager.instance = new DatabaseManager(new dbConfigBean());
         }
         return DatabaseManager.instance;
     }
 
 //    set private to avoid multiple instances (singleton pattern)
-    private DatabaseManager(){
+    @Autowired
+    private DatabaseManager(dbConfigBean dbConfigBean){
+        this.dbConfigBean = dbConfigBean;
         this.addresses = new ArrayList<>();
         loadDataBase();
     }
 
     public static Boolean isValidAddress(Address address){
-//        TODO check if id is unique
         return address != null && address.getName() != null && address.getCity() != null && address.getStreet() != null && address.getZipcode() != null;
     }
 
-    private Integer generateId(){
-//        this is not a recommended way to implement id generation, but it works for this demo purpose
-        return (int) (Math.random() * 9999);
+    private UUID generateId(){
+        return UUID.randomUUID();
     }
 
 
 //    TODO handle file not found exception somehow (maybe generate file)
     private void loadDataBase(){
-
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.USE_JAVA_ARRAY_FOR_JSON_ARRAY, true);
 
-//            try block is only used for development. Relative path to database is given in string
-//            (File jsonFile = new File(dbConfigBean.getDatabasePath()) does not work here)
         try {
-            String jsonFilePath = "./src/main/resources/database/db.json";
-            File jsonFile = new File(jsonFilePath);
+            File jsonFile = new File(dbConfigBean.getDatabasePath());
             addresses = objectMapper.readValue(jsonFile, new TypeReference<List<Address>>() {});
-            System.out.println("database loaded from project resources");
+            System.out.println("database loaded");
 
         } catch (Exception ex) {
-//            try block executed in packed .jar
-            try {
-                File jsonFile = new File(dbConfigBean.getDatabasePath());
-                addresses = objectMapper.readValue(jsonFile, new TypeReference<List<Address>>() {});
-                System.out.println("database loaded from external resource");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                ex.printStackTrace();
         }
     }
 
     private void saveDataBase(){
         ObjectMapper objectMapper = new ObjectMapper();
-//        try block is only used for development. Relative path to database is given in string
-//        (File jsonFile = new File(dbConfigBean.getDatabasePath()) does not work here)
-        try {
-            String jsonFilePath = "./src/main/resources/database/db.json";
-            File jsonFile = new File(jsonFilePath);
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(jsonFile, addresses);
-            System.out.println("Writing data to file in resources");
-        } catch (Exception e) {
 
-//          try block executed in packed .jar
-            try {
-                objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(dbConfigBean.getDatabasePath()), addresses);
-                System.out.println("Writing data to external file");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+        try {
+            File jsonFile = new File(dbConfigBean.getDatabasePath());
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(jsonFile, addresses);
+            System.out.println("writing data to database");
+        } catch (Exception e) {
+                e.printStackTrace();
         }
     }
 
@@ -103,7 +80,7 @@ public class DatabaseManager {
 
 
     public Address addAddress(Address newAddress){
-        //TODO handle update request (if street, city and zipcode are the same → update name)
+        //TODO handle update request (if street, city and zipCode are the same → update name)
         newAddress.setId(generateId());
         if (isValidAddress(newAddress)) {
             addresses.add(newAddress);

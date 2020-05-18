@@ -6,13 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.Entity;
 import java.util.List;
 
 /**
  * REST-controller used to answer GET/POST/UPDATE/DELETE calls to database
  *  uses DatabaseManager Bean to realize database changes
- * without further configuration base path is http://localhost/8080
+ * without further configuration base url is http://localhost/8080
  */
 
 @RestController
@@ -45,6 +44,5 @@ public class AddressService {
     public void deleteAddress(){
 //        TODO read id from path
 //        TODO implement databaseManager handling deletion
-
     }
 }
