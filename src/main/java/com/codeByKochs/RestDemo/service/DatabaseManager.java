@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.util.List;
 
+/**
+ * Database manager used to manage database (.json file)
+ * uses dbConfigBean to load path to current database
+ */
+
 @Component
 public class DatabaseManager {
 
@@ -27,40 +32,36 @@ public class DatabaseManager {
         return DatabaseManager.instance;
     }
 
+//    set private to avoid multiple instances
+    private DatabaseManager(){}
+
     public List<Address> getAddresses() {
         return addresses;
     }
 
-    // TODO make private
+
+//    TODO make private?
     public void loadDataBase(){
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.USE_JAVA_ARRAY_FOR_JSON_ARRAY, true);
 
         try {
-
-            addresses = objectMapper.readValue(new File(dbConfigBean.getDatabasePath()), new TypeReference<List<Address>>() {});
-
-//            URL jsonUrl = getClass().getResource("/db.json");
-//            File jsonFile = new File (jsonUrl.getFile());
-//            addresses = objectMapper.readValue(getClass().getResource("/db.json")
-//                    , new TypeReference<List<Address>>() {});
-
-        } catch (Exception e) {
-            e.printStackTrace();
+//            try block is only used for development. Relative path to database is given in string (see Todo below)
+//            TODO File jsonFile = new File(dbConfigBean.getDatabasePath()) does not seem to work
+            File jsonFile = new File("./src/main/resources/database/db.json");
+            addresses = objectMapper.readValue(jsonFile, new TypeReference<List<Address>>() {
+            });
+        } catch (Exception ex) {
+            try {
+//                try block executed in packed .jar
+                File jsonFile = new File(dbConfigBean.getDatabasePath());
+                addresses = objectMapper.readValue(jsonFile, new TypeReference<List<Address>>() {
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
-
-//            String relativePath = "META-INF/somebinaryfile.bmp";
-//            URL resource = getClass().getClassLoader().getResource(relativePath).toURI();
-//
-//            File jsonFile = ResourceUtils.getFile("classpath:config/db.json");
-
-//            URL jsonUrl = this.getClass().getClassLoader().getResource("/db.json");
-//
-
-//            addresses = objectMapper.readValue(jsonFile, new TypeReference<List<Address>>() {});
-
     }
 
     public void saveDataBase(){

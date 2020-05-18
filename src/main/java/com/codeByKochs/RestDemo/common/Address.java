@@ -1,6 +1,9 @@
 package com.codeByKochs.RestDemo.common;
 
-import java.io.Serializable;
+/**
+ * Object used to store address information
+ * empty constructor and getter methods are needed to serialize/deserialize address objects with jackson
+ */
 
 public class Address{
     private int id;
@@ -9,7 +12,7 @@ public class Address{
     private String city;
     private String zipcode;
 
-    // needed to serialize objects with jackson
+    // empty constructor is needed to serialize objects with jackson
     public Address(){
         super();
     }

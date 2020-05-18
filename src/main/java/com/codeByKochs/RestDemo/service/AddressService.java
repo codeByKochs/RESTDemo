@@ -7,6 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * REST-controller used to answer GET/POST/UPDATE/DELETE calls to database
+ *  uses DatabaseManager Bean to realize database changes
+ * without further configuration base path is http://localhost/8080
+ */
+
 @RestController
 public class AddressService {
 
@@ -18,7 +24,7 @@ public class AddressService {
         return "Hello World!";
     }
 
-    @GetMapping("/addresses")
+    @GetMapping("/api/addresses")
     public List<Address> getAddresses(){
         databaseManager.loadDataBase();
         return databaseManager.getAddresses();
