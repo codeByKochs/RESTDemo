@@ -3,10 +3,12 @@ package com.codeByKochs.RestDemo.service;
 import com.codeByKochs.RestDemo.common.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * REST-controller used to answer GET/POST/UPDATE/DELETE calls to database
@@ -36,13 +38,17 @@ public class AddressService {
 
     @PostMapping(value="/api/addresses", consumes = "application/json")
     public Address postAddress(@RequestBody Address newAddress){
-        newAddress = databaseManager.addAddress(newAddress);
-        return newAddress;
+        return databaseManager.addAddress(newAddress);
     }
 
-    @DeleteMapping(value="/api/addresses/id")
-    public void deleteAddress(){
-//        TODO read id from path
-//        TODO implement databaseManager handling deletion
+    @DeleteMapping("/api/addresses/{id}")
+    public ResponseEntity<?> deleteAddress(@PathVariable UUID id){
+        databaseManager.deleteAddress(id);
+        return new ResponseEntity<String>("Addresss has been deleted", HttpStatus.OK);
+    }
+
+    @PutMapping(value="/api/addresses/{id}", consumes="application/json")
+    public Address updateAddress(@PathVariable UUID id, @RequestBody Address updatedAddress){
+        return databaseManager.updateAddress(id, updatedAddress);
     }
 }

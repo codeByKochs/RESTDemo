@@ -80,7 +80,6 @@ public class DatabaseManager {
 
 
     public Address addAddress(Address newAddress){
-        //TODO handle update request (if street, city and zipCode are the same → update name)
         newAddress.setId(generateId());
         if (isValidAddress(newAddress)) {
             addresses.add(newAddress);
@@ -90,11 +89,18 @@ public class DatabaseManager {
         return null;
     }
 
-    public void updateAddress(Address newAddress){
-//        for address in list, if id=newAddress.id → update data
+    public Address updateAddress(UUID id, Address updatedAddress){
+        if (isValidAddress(updatedAddress)){
+            addresses.removeIf(address -> address.getId().equals(id));
+            addresses.add(updatedAddress);
+            saveDataBase();
+            return updatedAddress;
+        }
+        return null;
     }
 
-    public void deleteAddress(Integer id){
-//        for address in list, if id = address.id → delete
+    public void deleteAddress(UUID id){
+        addresses.removeIf(address -> address.getId().equals(id));
+        saveDataBase();
     }
 }
