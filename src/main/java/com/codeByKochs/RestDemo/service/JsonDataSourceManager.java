@@ -1,6 +1,6 @@
 package com.codeByKochs.RestDemo.service;
 
-import com.codeByKochs.RestDemo.beans.dbConfigBean;
+import com.codeByKochs.RestDemo.beans.JsonDBConfigBean;
 import com.codeByKochs.RestDemo.common.Address;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -23,19 +23,19 @@ public class JsonDataSourceManager implements DataSourceManager{
 
     private static JsonDataSourceManager instance;
     private List<Address> addresses;
-    private dbConfigBean dbConfigBean;
+    private JsonDBConfigBean JsonDBConfigBean;
 
     public static JsonDataSourceManager getInstance(){
         if (JsonDataSourceManager.instance == null){
-            JsonDataSourceManager.instance = new JsonDataSourceManager(new dbConfigBean());
+            JsonDataSourceManager.instance = new JsonDataSourceManager(new JsonDBConfigBean());
         }
         return JsonDataSourceManager.instance;
     }
 
 //    set private to avoid multiple instances (singleton pattern)
     @Autowired
-    private JsonDataSourceManager(dbConfigBean dbConfigBean){
-        this.dbConfigBean = dbConfigBean;
+    private JsonDataSourceManager(JsonDBConfigBean JsonDBConfigBean){
+        this.JsonDBConfigBean = JsonDBConfigBean;
         this.addresses = new ArrayList<>();
         loadDataBase();
     }
@@ -50,7 +50,7 @@ public class JsonDataSourceManager implements DataSourceManager{
         objectMapper.configure(DeserializationFeature.USE_JAVA_ARRAY_FOR_JSON_ARRAY, true);
 
         try {
-            File jsonFile = new File(dbConfigBean.getDatabasePath());
+            File jsonFile = new File(JsonDBConfigBean.getDatabasePath());
             addresses = objectMapper.readValue(jsonFile, new TypeReference<List<Address>>() {});
             System.out.println("database loaded");
 
@@ -63,7 +63,7 @@ public class JsonDataSourceManager implements DataSourceManager{
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            File jsonFile = new File(dbConfigBean.getDatabasePath());
+            File jsonFile = new File(JsonDBConfigBean.getDatabasePath());
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(jsonFile, addresses);
             System.out.println("writing data to database");
         } catch (Exception e) {

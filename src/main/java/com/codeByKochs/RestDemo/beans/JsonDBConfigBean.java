@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * configuration bean used to load information of the current path to the database (.json file) from application.properties
+ * configuration bean used to return path to current json Database
+ * the path variable is automatically loaded from application.properties on startup
  */
 
 @Component
-public class dbConfigBean {
+public class JsonDBConfigBean {
 
     @Value("${database.path}")
     private String databasePath;
