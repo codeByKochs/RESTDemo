@@ -20,7 +20,7 @@ import java.util.UUID;
 public class AddressService {
 
     @Autowired
-    private DatabaseManager databaseManager;
+    private JsonDataSourceManager jsonDataSourceManager;
 
     private ResponseStatusException exceptionHandling(HttpStatus httpStatus){
         return new ResponseStatusException(httpStatus);
@@ -33,22 +33,22 @@ public class AddressService {
 
     @GetMapping("/api/addresses")
     public List<Address> getAddresses(){
-        return databaseManager.getAddresses();
+        return jsonDataSourceManager.getAddresses();
     }
 
     @PostMapping(value="/api/addresses", consumes = "application/json")
     public Address postAddress(@RequestBody Address newAddress){
-        return databaseManager.addAddress(newAddress);
+        return jsonDataSourceManager.addAddress(newAddress);
     }
 
     @DeleteMapping("/api/addresses/{id}")
     public ResponseEntity<?> deleteAddress(@PathVariable UUID id){
-        databaseManager.deleteAddress(id);
+        jsonDataSourceManager.deleteAddress(id);
         return new ResponseEntity<String>("Addresss has been deleted", HttpStatus.OK);
     }
 
     @PutMapping(value="/api/addresses/{id}", consumes="application/json")
     public Address updateAddress(@PathVariable UUID id, @RequestBody Address updatedAddress){
-        return databaseManager.updateAddress(id, updatedAddress);
+        return jsonDataSourceManager.updateAddress(id, updatedAddress);
     }
 }

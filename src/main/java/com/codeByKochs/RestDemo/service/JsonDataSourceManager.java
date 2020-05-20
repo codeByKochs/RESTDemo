@@ -14,43 +14,38 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Database manager used to manage database (in this case a .json file)
+ * Database manager used to manage address database (in this case a .json file)
  * uses dbConfigBean to load path to current database
  */
 
 @Component
-public class DatabaseManager {
+public class JsonDataSourceManager implements DataSourceManager{
 
-    private static DatabaseManager instance;
+    private static JsonDataSourceManager instance;
     private List<Address> addresses;
     private dbConfigBean dbConfigBean;
 
-    public static DatabaseManager getInstance(){
-        if (DatabaseManager.instance == null){
-            DatabaseManager.instance = new DatabaseManager(new dbConfigBean());
+    public static JsonDataSourceManager getInstance(){
+        if (JsonDataSourceManager.instance == null){
+            JsonDataSourceManager.instance = new JsonDataSourceManager(new dbConfigBean());
         }
-        return DatabaseManager.instance;
+        return JsonDataSourceManager.instance;
     }
 
 //    set private to avoid multiple instances (singleton pattern)
     @Autowired
-    private DatabaseManager(dbConfigBean dbConfigBean){
+    private JsonDataSourceManager(dbConfigBean dbConfigBean){
         this.dbConfigBean = dbConfigBean;
         this.addresses = new ArrayList<>();
         loadDataBase();
     }
 
-    public static Boolean isValidAddress(Address address){
+    public Boolean isValidAddress(Address address){
         return address != null && address.getName() != null && address.getCity() != null && address.getStreet() != null && address.getZipcode() != null;
     }
 
-    private UUID generateId(){
-        return UUID.randomUUID();
-    }
-
-
 //    TODO handle file not found exception somehow (maybe generate file)
-    private void loadDataBase(){
+    public void loadDataBase(){
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.USE_JAVA_ARRAY_FOR_JSON_ARRAY, true);
 
@@ -64,7 +59,7 @@ public class DatabaseManager {
         }
     }
 
-    private void saveDataBase(){
+    public void saveDataBase(){
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
@@ -80,7 +75,7 @@ public class DatabaseManager {
 
 
     public Address addAddress(Address newAddress){
-        newAddress.setId(generateId());
+        newAddress.setId(Address.generateUUID());
         if (isValidAddress(newAddress)) {
             addresses.add(newAddress);
             saveDataBase();

@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- * configuration bean used to avoid CORS problems when backend and frontend work on localhost
+ * configuration bean used to avoid CORS problems when backend and frontend work on same localhost
  */
 
 @Configuration

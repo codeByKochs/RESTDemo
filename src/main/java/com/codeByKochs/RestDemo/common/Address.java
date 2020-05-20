@@ -27,22 +27,20 @@ public class Address{
         this.zipcode = zipcode;
     }
 
+    public static UUID generateUUID(){ return UUID.randomUUID();}
+
     public void setId(UUID id) {
         this.id = id;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public void setStreet(String street) {
         this.street = street;
     }
-
     public void setCity(String city) {
         this.city = city;
     }
-
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
@@ -50,19 +48,15 @@ public class Address{
     public UUID getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public String getStreet() {
         return street;
     }
-
     public String getCity() {
         return city;
     }
-
     public String getZipcode() {
         return zipcode;
     }
