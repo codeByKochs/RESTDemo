@@ -1,0 +1,31 @@
+[ {
+  "id" : "e59a5828-f114-4fbe-8dbd-57b5cf88b60c",
+  "name" : "Leanne Graham",
+  "street" : "Kulas Light",
+  "city" : "Gwenborough",
+  "zipcode" : "92998-3874"
+}, {
+  "id" : "d2643033-e3ec-45a6-9ec0-724b167f7c87",
+  "name" : "Ervin Howell",
+  "street" : "Victor Plains",
+  "city" : "Wisokyburgh",
+  "zipcode" : "90566-7771"
+}, {
+  "id" : "b6279e2c-ab51-4d54-ad9d-ca622adcdb00",
+  "name" : "Clementine Bauch",
+  "street" : "Douglas Extension",
+  "city" : "McKenziehaven",
+  "zipcode" : "59590-4157"
+}, {
+  "id" : "4d924aa8-2d0e-458e-8bcb-f4162c86d59e",
+  "name" : "Patricia Lebsack",
+  "street" : "Hoeger Mall",
+  "city" : "South Elvis",
+  "zipcode" : "53919-4257"
+}, {
+  "id" : "4d924aa8-2d0e-458e-8bcb-f4162c86d59f",
+  "name" : "Chelsey Dietrich",
+  "street" : "Skiles Walks",
+  "city" : "Roscoeview",
+  "zipcode" : "33263"
+} ]

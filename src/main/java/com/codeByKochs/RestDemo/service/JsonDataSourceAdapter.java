@@ -1,11 +1,14 @@
 package com.codeByKochs.RestDemo.service;
 
+import com.codeByKochs.RestDemo.RestDemoApplication;
 import com.codeByKochs.RestDemo.common.Address;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -28,28 +31,41 @@ public class JsonDataSourceAdapter implements IDataSourceAdapter {
 
 //    TODO handle file not found exception somehow (maybe generate file)
 //    loads database from .json file
-    private void loadDataBaseFromFile(){
+    private void loadDataBaseFromFile() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.USE_JAVA_ARRAY_FOR_JSON_ARRAY, true);
 
+//        try to use path from application.properties
         try {
             File jsonFile = new File(pathToDatabase);
-            addresses = objectMapper.readValue(jsonFile, new TypeReference<List<Address>>() {});
-
+            addresses = objectMapper.readValue(jsonFile, new TypeReference<List<Address>>() {
+            });
         } catch (Exception ex) {
-                ex.printStackTrace();
+//            try to find db.json file using search in runtime environment
+            try {
+                File jsonFile = new File(RestDemoApplication.class.getClassLoader().getResource("db.json").getFile());
+                addresses = objectMapper.readValue(jsonFile, new TypeReference<List<Address>>() {
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
 //    saves database to .json file
     private void saveDataBaseToFile(){
         ObjectMapper objectMapper = new ObjectMapper();
-
+//        try to use path from application.properties
         try {
             File jsonFile = new File(pathToDatabase);
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(jsonFile, addresses);
-        } catch (Exception e) {
+        } catch (Exception ex) {
+//            try to find db.json file using search in runtime environment
+            try {
+                File jsonFile = new File(RestDemoApplication.class.getClassLoader().getResource("db.json").getFile());
+            } catch (Exception e){
                 e.printStackTrace();
+            }
         }
     }
 

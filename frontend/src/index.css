@@ -1,0 +1,41 @@
+.FilterFormLabel {
+    display: block;
+}
+
+.AddLabel {
+    margin-top : 20px;
+    display : block;
+}
+
+.SubmitButton {
+    margin-top : 20px;
+    padding : 20px 60px;
+    font-size: large;
+}
+
+.AddressEntry {
+    margin-top: 20px
+}
+
+.DeleteButton {
+    float : right
+}
+
+.errorMessage {
+    color: red;
+    background: lightcoral;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.successMessage {
+    color: green;
+    background: lightgreen;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
