@@ -4,20 +4,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- * configuration bean used to avoid CORS problems when backend and frontend work on same localhost
+ * Configuration Bean used to allow Cross Origin Communictaion between client and server
  */
 
 @Configuration
 public class CORSConfiguration {
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
+    public WebMvcConfigurer corsConfigurer(){
+        return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**");
+            public void addCorsMappings(CorsRegistry registry){
+                registry.addMapping("/**")
+                        .allowedMethods("*")
+                        .allowedOrigins("http://localhost:3000");
             }
         };
     }

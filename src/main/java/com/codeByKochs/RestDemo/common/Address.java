@@ -27,6 +27,26 @@ public class Address{
         this.zipcode = zipcode;
     }
 
+//    Check if object or its fields are not empty or null
+    public static Boolean isValidAddress(Address address){
+        if (address == null){
+            return false;
+        }
+        if (address.name == null || address.name.isEmpty()){
+            return false;
+        }
+        if (address.city == null || address.city.isEmpty()){
+            return false;
+        }
+        if (address.street == null || address.street.isEmpty()){
+            return false;
+        }
+        if (address.zipcode == null || address.zipcode.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
     public static UUID generateUUID(){ return UUID.randomUUID();}
 
     public void setId(UUID id) {
