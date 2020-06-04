@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -29,7 +27,6 @@ public class JsonDataSourceAdapter implements IDataSourceAdapter {
         loadDataBaseFromFile();
     }
 
-//    TODO handle file not found exception somehow (maybe generate file)
 //    loads database from .json file
     private void loadDataBaseFromFile() {
         ObjectMapper objectMapper = new ObjectMapper();
