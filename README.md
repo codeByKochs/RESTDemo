@@ -10,13 +10,6 @@ The server backend is running on "http://localhost:8080" and allows the followin
 - DELETE
 - PUT
 
-## Getting Started
-Put the db.json file in the folder of the .jar file. 
-Run the .jar file in the commandline with the following command
+The structure of the project is visualized in the diagram below.
 
->java -jar <{path-to-jar-file}>
-
-Alternatively the path to the database can be set via
-
->java -jar <{path-to-jar-file}> --database.path=<{path-to-json-file}>
-
+![project diagram](./images/UML-Diagram.jpg)
